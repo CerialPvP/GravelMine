@@ -38,6 +38,7 @@ discord command -stats [<text>]:
 on button click:
 	if discord id of event-member = {owner::%{msgId::%discord id of event-member%%}:
 		if event-button = "pstats":
+			defer the interaction
 			set {_did} to discord id of event-member
 			make embed:
 				set title of the embed to "Player Stats"
@@ -53,6 +54,7 @@ on button click:
 			reply with hidden "Edited embed!" with event-bot
 		
 		if event-button = "cstats":
+			defer the interaction
 			set {_did} to discord id of event-member
 			set {_cname} to {clan::%{uuid::%discord id of event-member%}%}
 			set {_cowner} to {clans::%{_cname}%::owner} parsed as an offline player
