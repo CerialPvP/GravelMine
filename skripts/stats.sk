@@ -1,0 +1,82 @@
+# Just a stats skript for the discord bot!
+# Don't put this skript as a whole, just copy the everything to the discord skript.
+# Made by Cerial
+
+
+discord command -stats [<text>]:
+	trigger:
+		if arg 1 is set:
+			set {_p} to arg 1 parsed as an offline player
+			set {_u} to uuid of {_p}
+			if {_p} did not played before:
+				reply to event-message with "Sorry, **%{_p}%** has never played on this server. They might join one day though."
+				stop
+			set {player::%discord id of event-member%} to {_p}
+			set {uuid::%discord id of event-member%} to {_u}
+			set {_r} to new buttons row
+			add new button "pstats" with style primary with content "Player Stats" with emoji "person_bouncing_ball" to buttons of {_r}
+			if {clan::%{_u}%} is set:
+				add new button "cstats" with style secondary with content "Clan Stats" with emoji "trophy" to buttons of {_r}
+			make embed:
+				set title of the embed to "Player Stats"
+				set description of the embed to "Stats of **%arg 1%**"
+				add field named "Kills :crossed_swords:" with value "**%{kills::%{_p}%}%** kills" to embed
+				add field named "Deaths :headstone:" with value "**%{deaths::%{_p}%}%** deaths" to embed
+				add field named "KDR :purple_circle:" with value "**%{kills::%{_p}%} / {deaths::%{_p}%}%** KDR" to embed
+				add field named "Playtime :alarm_clock:" with value "%{playtime_hours::%{_p}%}%h, %{playtime_minutes::%{_p}%}%m, %{playtime_seconds::%{_p}%}%s" to embed
+				add field named "GravelCoins :coin:" with value "**Coming soon.**" to embed
+				set thumbnail of the embed to "https://minotar.net/armor/bust/%{_u}%/100.png"
+			reply to event-message with last made embed with event-bot with rows {_r} and store it in {embed::%discord id of event-member%}
+			set {_e} to last made embed
+			set {owner::%discord id of {_e}%} to discord id of event-member
+			set {msgId::%discord id of event-member%} to discord id of {_e}
+
+		else:
+			reply to event-message with "**Please set a username for me to check their stats.**" with event-bot
+			stop
+
+on button click:
+	if discord id of event-member = {owner::%{msgId::%discord id of event-member%%}:
+		if event-button = "pstats":
+			set {_did} to discord id of event-member
+			make embed:
+				set title of the embed to "Player Stats"
+				set description of the embed to "Stats of **%{player::%discord id of event-member%}%**"
+				add field named "Kills :crossed_swords:" with value "**%{kills::%{player::%discord id of event-member%}%}%** kills" to embed
+				add field named "Deaths :headstone:" with value "**%{deaths::%{player::%discord id of event-member%}%}%** deaths" to embed
+				add field named "KDR :purple_circle:" with value "**%{kills::%{player::%discord id of event-member%}%} / {deaths::%{player::%discord id of event-member%}%}%** KDR" to embed
+				add field named "Playtime :alarm_clock:" with value "%{playtime_hours::%{player::%discord id of event-member%}%}%h, %{playtime_minutes::%{player::%discord id of event-member%}%}%m, %{playtime_seconds::%{player::%discord id of event-member%}%}%s" to embed
+				add field named "GravelCoins :coin:" with value "**Coming soon.**" to embed
+				set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
+				set color of the embed to lime
+			edit {embed::%discord id of event-member%} to show last made embed
+			reply with hidden "Edited embed!" with event-bot
+		
+		if event-button = "cstats":
+			set {_did} to discord id of event-member
+			set {_cname} to {clan::%{uuid::%discord id of event-member%}%}
+			set {_cowner} to {clans::%{_cname}%::owner} parsed as an offline player
+			set {_cpvp} to {clans::%{_cname}%::pvp}
+			loop {clans::%{clans::%{_pu}%}%::admins::*}:
+				set {_p} to "%loop-value%" parsed as offline player
+				add {_p} to {_admins::*}
+			loop {clans::%{clans::%{_pu}%}%::members::*}:
+				set {_p} to "%loop-value%" parsed as offline player
+				add {_p} to {_members::*}
+			make embed:
+				set title of the emebd to "Clan Stats"
+				set description of the embed to "Stats of clan of **%{player::%discord id of event-member%}%**"
+				add field named "Clan Name <:nametag:933386913916813372>" with value "%%" to embed
+				add field named "Clan Owner :crown:" with value "%{_cowner}%" to embed
+				add field named "Clan Admins :shield:" with value "%{_admins::*}%" to embed
+				add field named "Clan Members :people_wrestling:" with value "%{_members::*}%" to embed
+				add field named "Clan Members Count :1234:" with value "%size of {_members::*}%" to embed
+				add field named "Clan PvP toggle :crossed_swords:" with value "%{_cpvp}%" to embed
+				set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
+				set color of the embed to light red
+			edit {embed::%discord id of event-member%} to show last made embed
+			reply with hidden "Edited embed!" with event-bot
+	
+	else:
+		reply with hidden "Not your interaction! You can make one by typing `-stats <player>`!"
+		stop
