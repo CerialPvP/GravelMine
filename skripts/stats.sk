@@ -36,49 +36,45 @@ discord command -stats [<text>]:
 			stop
 
 on button click:
-	if discord id of event-member = {owner::%{msgId::%discord id of event-member%%}:
-		if event-button = "pstats":
-			defer the interaction
-			set {_did} to discord id of event-member
-			make embed:
-				set title of the embed to "Player Stats"
-				set description of the embed to "Stats of **%{player::%discord id of event-member%}%**"
-				add field named "Kills :crossed_swords:" with value "**%{kills::%{player::%discord id of event-member%}%}%** kills" to embed
-				add field named "Deaths :headstone:" with value "**%{deaths::%{player::%discord id of event-member%}%}%** deaths" to embed
-				add field named "KDR :purple_circle:" with value "**%{kills::%{player::%discord id of event-member%}%} / {deaths::%{player::%discord id of event-member%}%}%** KDR" to embed
-				add field named "Playtime :alarm_clock:" with value "%{playtime_hours::%{player::%discord id of event-member%}%}%h, %{playtime_minutes::%{player::%discord id of event-member%}%}%m, %{playtime_seconds::%{player::%discord id of event-member%}%}%s" to embed
-				add field named "GravelCoins :coin:" with value "**Coming soon.**" to embed
-				set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
-				set color of the embed to lime
-			edit {embed::%discord id of event-member%} to show last made embed
-			reply with hidden "Edited embed!" with event-bot
+	if event-button = "pstats":
+		defer the interaction
+		set {_did} to discord id of event-member
+		make embed:
+			set title of the embed to "Player Stats"
+			set description of the embed to "Stats of **%{player::%discord id of event-member%}%**"
+			add field named "Kills :crossed_swords:" with value "**%{kills::%{player::%discord id of event-member%}%}%** kills" to embed
+			add field named "Deaths :headstone:" with value "**%{deaths::%{player::%discord id of event-member%}%}%** deaths" to embed
+			add field named "KDR :purple_circle:" with value "**%{kills::%{player::%discord id of event-member%}%} / {deaths::%{player::%discord id of event-member%}%}%** KDR" to embed
+			add field named "Playtime :alarm_clock:" with value "%{playtime_hours::%{player::%discord id of event-member%}%}%h, %{playtime_minutes::%{player::%discord id of event-member%}%}%m, %{playtime_seconds::%{player::%discord id of event-member%}%}%s" to embed
+			add field named "GravelCoins :coin:" with value "**Coming soon.**" to embed
+			set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
+			set color of the embed to lime
+		edit {embed::%discord id of event-member%} to show last made embed
+		reply with hidden "Edited embed!" with event-bot
 		
-		if event-button = "cstats":
-			defer the interaction
-			set {_did} to discord id of event-member
-			set {_cname} to {clan::%{uuid::%discord id of event-member%}%}
-			set {_cowner} to {clans::%{_cname}%::owner} parsed as an offline player
-			set {_cpvp} to {clans::%{_cname}%::pvp}
-			loop {clans::%{clans::%{_pu}%}%::admins::*}:
-				set {_p} to "%loop-value%" parsed as offline player
-				add {_p} to {_admins::*}
-			loop {clans::%{clans::%{_pu}%}%::members::*}:
-				set {_p} to "%loop-value%" parsed as offline player
-				add {_p} to {_members::*}
-			make embed:
-				set title of the emebd to "Clan Stats"
-				set description of the embed to "Stats of clan of **%{player::%discord id of event-member%}%**"
-				add field named "Clan Name <:nametag:933386913916813372>" with value "%%" to embed
-				add field named "Clan Owner :crown:" with value "%{_cowner}%" to embed
-				add field named "Clan Admins :shield:" with value "%{_admins::*}%" to embed
-				add field named "Clan Members :people_wrestling:" with value "%{_members::*}%" to embed
-				add field named "Clan Members Count :1234:" with value "%size of {_members::*}%" to embed
-				add field named "Clan PvP toggle :crossed_swords:" with value "%{_cpvp}%" to embed
-				set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
-				set color of the embed to light red
-			edit {embed::%discord id of event-member%} to show last made embed
-			reply with hidden "Edited embed!" with event-bot
+	if event-button = "cstats":
+		defer the interaction
+		set {_did} to discord id of event-member
+		set {_cname} to {clan::%{uuid::%discord id of event-member%}%}
+		set {_cowner} to {clans::%{_cname}%::owner} parsed as an offline player
+		set {_cpvp} to {clans::%{_cname}%::pvp}
+		loop {clans::%{clans::%{_pu}%}%::admins::*}:
+			set {_p} to "%loop-value%" parsed as offline player
+			add {_p} to {_admins::*}
+		loop {clans::%{clans::%{_pu}%}%::members::*}:
+			set {_p} to "%loop-value%" parsed as offline player
+			add {_p} to {_members::*}
+		make embed:
+			set title of the emebd to "Clan Stats"
+			set description of the embed to "Stats of clan of **%{player::%discord id of event-member%}%**"
+			add field named "Clan Name <:nametag:933386913916813372>" with value "%%" to embed
+			add field named "Clan Owner :crown:" with value "%{_cowner}%" to embed
+			add field named "Clan Admins :shield:" with value "%{_admins::*}%" to embed
+			add field named "Clan Members :people_wrestling:" with value "%{_members::*}%" to embed
+			add field named "Clan Members Count :1234:" with value "%size of {_members::*}%" to embed
+			add field named "Clan PvP toggle :crossed_swords:" with value "%{_cpvp}%" to embed
+			set thumbnail of the embed to "https://minotar.net/armor/bust/%{player::%{_did}%}%/100.png"
+			set color of the embed to light red
+		edit {embed::%discord id of event-member%} to show last made embed
+		reply with hidden "Edited embed!" with event-bot
 	
-	else:
-		reply with hidden "Not your interaction! You can make one by typing `-stats <player>`!"
-		stop
