@@ -108,3 +108,8 @@ on song end:
 				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
 				send action bar "&6Current Song: &eOne Republic - Counting Stars" to loop-players
 				stop
+
+
+command /playsong [<text>]:
+	trigger:
+		play song "plugins/GM_SONGS/%arg 1%" to player
