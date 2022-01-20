@@ -1,0 +1,121 @@
+# Music skript for gravelmine
+# Dependencies:
+# 	skQuery
+# 	FunkySK
+# 	NoteBlockAPI (Not the new one)
+
+# To upload the songs you need to make a folder in the plugins folder named "GM_SONGS" for this to work
+# The songs HAVE to be in .nbs format otherwise it won't work
+# If you want to make your own song just look up "(song name) midi" on google and download the midi file
+# Send it to me and ill convert it to .nbs
+
+#! NOTE: Make sure to keep the file names as the original, because the skript will not work!
+
+variables:
+	{music::%player%} = true
+	{currentSong} = "TatuNotGonnaGetUs"
+
+options:
+	ver: 1.0 # The version of this skript. This version changes when new songs are being added.
+
+# Update Checker
+on load:
+	set {_v} to text from url "https://raw.githubusercontent.com/CerialPvP/GravelMine/main/skripts/musicversion/ver"
+	if {_v} = {@ver}:
+		send "GravelMusic | Your version of this skript is up to date." to console
+		stop
+	
+	else:
+		send "GravelMusic | Please update this skript at !" to console
+		stop
+
+# Variable setters (Don't remove)
+on load:
+	loop all players:
+		if {gravelCoins::%loop-player's uuid%} is not set:
+			set {gravelCoins::%loop-player's uuid%} to 0
+
+on join:
+	loop all players:
+		if {gravelCoins::%loop-player's uuid%} is not set:
+			set {gravelCoins::%loop-player's uuid%} to 0
+
+
+# Toggle music for a player
+command /music:
+	trigger:
+		if {music::%player%} = false:
+			set {music::%player%} to true
+			resume song with id {currentSong}
+			send "&aToggled music on! &7Music will now play."
+			stop
+		
+		else:
+			set {music::%player%} to true
+			stop song for player
+			send "&aToggled music off! &7You can no longer hear music."
+			stop
+
+# Music manager
+on script load:
+	play song file "plugins/GM_SONGS/%{currentSong}%" to player
+
+on load:
+	play song file "plugins/GM_SONGS/%{currentSong}%" to all players
+
+function songInfo(song: text) :: string:
+	if {_song} = "TatuNotGonnaGetUs":
+		return "Tatu - Not Gonna Get Us"
+	
+	if {_song} = "TatuAllTheThingsSheSaid":
+		return "Tatu - All The Things She Said"
+	
+	if {_song} = "OneRepublicCountingStars":
+		return "One Republic - Counting Stars"
+
+	if {_song} = "AlanWalkerFaded":
+		return "Alan Walker - Faded"
+
+	if {_song} = "AlanWalkerOnMyWay":
+		return "Alan Walker - Faded"
+
+on song end:
+	if {currentSong} = "TatuNotGonnaGetUs":
+		set {currentSong} to "TatuAllTheThingsSheSaid"
+		loop all players:
+			if {music::%loop-player%} = true:
+				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
+				send action bar "&6Current Song: &eTatu - All the things she said" to loop-players
+				stop
+	
+	if {currentSong} = "TatuAllTheThingsSheSaid":
+		set {currentSong} to "OneRepublicCountingStars"
+		loop all players:
+			if {music::%loop-player%} = true:
+				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
+				send action bar "&6Current Song: &eOne Republic - Counting Stars" to loop-players
+				stop
+	
+	if {currentSong} = "OneRepublicCountingStars":
+		set {currentSong} to "AlanWalkerFaded"
+		loop all players:
+			if {music::%loop-player%} = true:
+				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
+				send action bar "&6Current Song: &eAlan Walker - Faded" to loop-players
+				stop
+
+	if {currentSong} = "AlanWalkerFaded":
+		set {currentSong} to "AlanWalkerOnMyWay"
+		loop all players:
+			if {music::%loop-player%} = true:
+				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
+				send action bar "&6Current Song: &eOne Republic - Counting Stars" to loop-players
+				stop
+	
+	if {currentSong} = "AlanWalkerOnMyWay":
+		set {currentSong} to "TatuNotGonnaGetUs"
+		loop all players:
+			if {music::%loop-player%} = true:
+				play song file "plugins/GM_SONGS/%{currentSong}%" to loop-players
+				send action bar "&6Current Song: &eOne Republic - Counting Stars" to loop-players
+				stop

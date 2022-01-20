@@ -1,0 +1,56 @@
+# Filter skript
+# Made by Cerial for GravelMine
+
+options:
+	# Prefix
+	prefix: &4&lGravel&c&lFilter &8|
+	
+	# Message to send when a player doesn't have permissions
+	noperm: "&4&lGravel&c&lFilter &8| &cYou don't have permission to use this!"
+
+	# Permission to see filter alerts
+	filterPerm: "filter.alert"
+
+	# Permission to bypass the filter (you shouldn't give this to anyone but your choice)
+	filterBypass: "filter.bypass"
+
+	# Permission to add/remove filtered words
+	filterModify: "filter.modify"
+
+	# Permission to make the player bypass the filter
+	filterAddBypass: "filter.addbypass"
+
+variables:
+	# Toggle the entire filter on or off.
+	# You can toggle this on or off ingame using /filter toggle.
+	# Only people with OP have access to this command.
+	{toggleFilter} = true
+
+on chat:
+	if {toggleFilter} = true:
+		if player doesn't have permission {@filterBypass}:
+			if message contains "sex", "s3x", ".xxx", "cum", "coom", "ejaculate", "creampie", "ebony", "jerk off" or "masturbate":
+				cancel event
+				send ""
+				send "&cYour message &4%message% &chas been filtered by &4&lGravel&c&lFilter"
+				send "&cbecause of it containing sexual (18+) references. Please refrain from using these"
+				send "&cwords in this category. Thank you and have a great time chatting!"
+				send ""
+				send "{@prefix} %player's display name% &chas said &4%message% &c(sexual reference)." to all players where [input has permission {@filterPerm}]
+				stop
+			
+			if message contains "nigger", "nigga", "n!gga", "n1gga", "n!gger", "n1gger", "n*gger", "n*gga", "fuck palestine", "fuck israel", ""
+				cancel event
+				send ""
+				send "&cYour message &4%message% &chas been filtered by &4&lGravel&c&lFilter"
+				send "&cbecause of it containing racism. Please refrain from using these"
+				send "&cwords in this category. Thank you and have a great time chatting!"
+				send ""
+				send "{@prefix} %player's display name% &chas said &4%message% &c(racism)." to all players where [input has permission {@filterPerm}]
+				stop
+		
+		else:
+			stop
+	
+	else:
+		stop
