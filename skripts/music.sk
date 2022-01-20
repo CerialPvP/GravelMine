@@ -29,17 +29,6 @@ on load:
 		send "GravelMusic | Please update this skript at !" to console
 		stop
 
-# Variable setters (Don't remove)
-on load:
-	loop all players:
-		if {gravelCoins::%loop-player's uuid%} is not set:
-			set {gravelCoins::%loop-player's uuid%} to 0
-
-on join:
-	loop all players:
-		if {gravelCoins::%loop-player's uuid%} is not set:
-			set {gravelCoins::%loop-player's uuid%} to 0
-
 
 # Toggle music for a player
 command /music:
