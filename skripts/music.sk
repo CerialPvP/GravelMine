@@ -51,7 +51,7 @@ command /music:
 			stop
 		
 		else:
-			set {music::%player%} to true
+			set {music::%player%} to false
 			stop song for player
 			send "&aToggled music off! &7You can no longer hear music."
 			stop
