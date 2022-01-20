@@ -112,4 +112,4 @@ on song end:
 
 command /playsong [<text>]:
 	trigger:
-		play song "plugins/GM_SONGS/%arg 1%" to player
+		play song file "plugins/GM_SONGS/%arg 1%" to player
