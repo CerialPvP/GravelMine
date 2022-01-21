@@ -6,10 +6,11 @@ variables:
 	{getgc::%player%} = true
 
 every 15 minutes:
-	set {_afk} to "%placeholder ""essentials_afk"" from player%"
-	if {_afk} = true:
-		set {getgc::%player%} to false
-	
-	else:
-		set {getgc::%player%} to true
-		send action bar "&e+15 GravelCoins" to player
+	loop all players:
+		set {_afk} to placeholder "essentials_afk" from loop-player
+		if {_afk} = true:
+			set {getgc::%player%} to false
+		
+		else:
+			set {getgc::%player%} to true
+			send action bar "&e+15 GravelCoins" to loop-player
