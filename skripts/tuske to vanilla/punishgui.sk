@@ -26,7 +26,8 @@ function openPunish(t: string, p: player, p2: player):
 	else:
 		set slot 3 of {inv::%{_p}%} to book named "&eBan (temp & perm)"
 	
-	set slot (integers between 9 and 17) to black stained glass pane named "&7"
+	set slot (integers between 9 and 17) of {inv::%{_p}%} to black stained glass pane named "&7"
+	set slot 53 of {inv::%{_p}%} to paper named "&eMade by Cerial for GravelMine :)"
 
 	if {_t} = "warn":
 		set slot 18 of {inv::%{_p}%} to diamond sword named "&eSpawn killing / camping" with lore "&6Spawn camping is killing players who are", "&6exiting out of spawn.", "" and "&c&lWarn for 1st, 2nd and 3rd offense." and "&c&lFor 4th offense, go to ""Ban"" tab and select ""Spawn Killing""."
