@@ -1,0 +1,111 @@
+# New punish GUI for GravelMine
+# Made by Cerial for GravelMine
+#! DO NOT CLAIM THIS CODE AS YOURS!
+
+function openPunish(t: string, p: player, p2: player):
+	set {inv::%{_p}%} to chest inventory with 6 rows named "&ePunish %{_p2}%"
+	set {inv.type::%{_p}%} to {_t}
+	set {inv.target::%{_p}%} to {_p2}
+	if {_t} = "warn":
+		set slot 0 of {inv::%{_p}%} to glowing cobweb named "&eWarn"
+	else:
+		set slot 0 of {inv::%{_p}%} to cobweb named "&eWarn"
+
+	if {_t} = "mute":
+		set slot 1 of {inv::%{_p}%} to glowing oak sign named "&eMute"
+	else:
+		set slot 1 of {inv::%{_p}%} to oak sign named "&eMute"
+	
+	if {_t} = "kick":
+		set slot 2 of {inv::%{_p}%} to glowing stick named "&eKick"
+	else:
+		set slot 2 of {inv::%{_p}%} to stick named "&eKick"
+	
+	if {_t} = "ban":
+		set slot 3 of {inv::%{_p}%} to glowing book named "&eBan (temp & perm)"
+	else:
+		set slot 3 of {inv::%{_p}%} to book named "&eBan (temp & perm)"
+	
+	set slot (integers between 9 and 17) to black stained glass pane named "&7"
+
+	if {_t} = "warn":
+		set slot 18 of {inv::%{_p}%} to diamond sword named "&eSpawn killing / camping" with lore "&6Spawn camping is killing players who are", "&6exiting out of spawn.", "" and "&c&lWarn for 1st, 2nd and 3rd offense." and "&c&lFor 4th offense, go to ""Ban"" tab and select ""Spawn Killing""."
+		set slot 19 of {inv::%{_p}%} to feather named "&eTalking about religion and politics" with lore "&6Our server doesn't accept talking about religion / politics!", "" and "&c&lWarn for 1st, 2nd and 3rd offense." and "&c&lFor 4th offense, go to ""Mute"" tab and select ""Talking about religion and politics""."
+	if {_t} = "mute":
+		set slot 18 of {inv::%{_p}%} to spruce sign named "&eSwearing" with lore "&6Swearing in the in-game chat is not allowed.", "", "&c&lBy default, this will mute anyone for 10 minutes."
+		set slot 19 of {inv::%{_p}%} to glazed terracotta named "&eAdvertising" with lore "&6Advertising is not allowed.", "&6This includes advertising:", "&7- &eMinehut Servers (for example ServerName.minehut.gg)", "&7- &eAny website", "&7- &eSocial Media (yt, instagram, twitter, ect)", "" and "&c&lThis is a 69420 months mute."
+		set slot 20 of {inv::%{_p}%} to gold sword named "&eToxicity" with lore "&6This community may be toxic at times, so we mute them!", "" and "&c&lThis is a 2 hour mute."
+		set slot 21 of {inv::%{_p}%} to black wool named "&eRacism/Sexism" with lore "&6Those are very serious topics that should", "&6not be mentioned in chat!", "" and "&c&lThis is a perm mute."
+		set slot 22 of {inv::%{_p}%} to feather named "&eTalking about religion and politics" with lore "&6Our server doesn't accept talking about religion / politics!", "", "&c&lThis is a 5 hour mute." and "&c&lMake sure you give %{_p2}% 3 warnings before doing this!"
+	if {_t} = "kick":
+		set slot 18 of {inv::%{_p}%} to red wool named "&c&lIt's mostly used for trolling, so yeah.." with lore "&cIdfk what you are looking for here go away now", "&cWhy are you still here click the other tabs"
+	if {_t} = "ban":
+		set slot 18 of {inv::%{_p}%} to diamond axe named "&eCheating (Hacking)" with lore "&6People will maybe use hacks on our server.", "&6It is quite rare on here, so yeah...", "", "&c&lThis is a 7 day ban."
+		set slot 19 of {inv::%{_p}%} to diamond sword named "&eSpawn killing / camping" with lore "&6Spawn camping is killing players who are", "&6exiting out of spawn.", "", "&c&lThis is a 1 day ban." and "&c&lMake sure you give %{_p2}% 3 warnings before doing this!"
+	
+	open {inv::%{_p}%} to {_p}
+
+on inventory click:
+	if event-inventory = {inv::%player%}:
+		cancel event
+		# Punishers
+		if {inv.type::%player%} = "warn":
+			if index of event-slot = 18:
+				close inventory of player
+				player command "/warn %{inv.target::%player%}% Spawn Killing"
+			
+			if index of event-slot = 19:
+				close inventory of player
+				player command "/warn %{inv.target::%player%}% Talking about religion and politics"
+			
+		if {inv.type::%player%} = "mute":
+			if index of event-slot = 18:
+				close inventory of player
+				player command "/mute %{inv.target::%player%}% 10m Swearing"
+			
+			if index of event-slot = 19:
+				close inventory of player
+				player command "/mute %{inv.target::%player%}% 69420mo Advertising"
+			
+			if index of event-slot = 20:
+				close inventory of player
+				player command "/mute %{inv.target::%player%}% 2h Toxicity"
+			
+			if index of event-slot = 21:
+				close inventory of player
+				player command "/mute %{inv.target::%player%}% 35843786mo Racism/Sexism"
+			
+			if index of event-slot = 22:
+				close inventory of player
+				player command "/mute %{inv.target::%player%}% 5h Talking about religion and politics"
+		
+		if {inv.type::%player%} = "ban":
+			if index of event-slot = 18:
+				close inventory of player
+				player command "/tempban %{inv.target::%player%}% 7d Cheating (Hacking)"
+			
+			if index of event-slot = 19:
+				close inventory of player
+				player command "/tempban %{inv.target::%player%}% 1d Spawn Killing/Camping"
+		
+		if index of event-slot = 0:
+			openPunish("warn", player, {inv.target::%player%})
+		
+		if index of event-slot = 1:
+			openPunish("mute", player, {inv.target::%player%})
+		
+		if index of event-slot = 2:
+			openPunish("kick", player, {inv.target::%player%})
+		
+		if index of event-slot = 3:
+			openPunish("ban", player, {inv.target::%player%})
+
+command /punish [<player>]:
+	permission: punish.use
+	aliases: /p
+	trigger:
+		if arg 1 is set:
+			openPunish("warn", player, arg 1)
+		
+		else:
+			send "&cPlease set a player name!"
