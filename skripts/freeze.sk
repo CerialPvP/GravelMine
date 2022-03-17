@@ -1,0 +1,69 @@
+# Freeze skript
+# Used for screensharing
+# Made by Cerial
+
+variables:
+	{frozen::%arg 1%} = false
+
+command /freeze [<player>]:
+	permission: staff.freeze
+	trigger:
+		if arg 1 is set:
+			if arg 1 != player:
+				if {frozen::%arg 1%} = false:
+					set {frozen::%arg 1%} to true
+					send "&aFrozen %arg 1% successfully!"
+					send "" to arg 1
+					send "&4&lYou are frozen!" to arg 1
+					send "&c&lA staff member has caught you cheating or saw a report of you cheating." to arg 1
+					send "&e&lJoin our Discord using /discord." to arg 1
+					send "&3&lYou have 3 minutes to join the Discord or to admit to a staff member that you're cheating." to arg 1
+					send "&b&lAdmitting shortens your ban, so for your benefit, you should admit. Otherwise, you will get screenshared." to arg 1
+					send "" to arg 1
+					loop all players:
+						if loop-player has permission "staff.freeze":
+							if loop-player != player:
+								send "&e%arg 1% has been frozen by %player%." to loop-players
+					
+					stop
+
+				else:
+					set {frozen::%arg 1%} to false
+					send "&aUnfrozen %arg 1% successfully!"
+					send "" to arg 1
+					send "&2&lYou have been unfrozen. Thanks for cooperating with us."
+					send "" to arg 1
+					loop all players:
+						if loop-player has permission "staff.freeze":
+							if loop-player != player:
+								send "&e%arg 1% has been unfrozen by %player%." to loop-players
+					
+					stop
+			
+			else:
+				send "&cYou can't freeze yourself!"
+				stop
+		else:
+			send "&cPlease send an online player's name!"
+			stop
+
+on any move:
+	if {frozen::%player%} = true:
+		cancel event
+	
+	else:
+		stop
+
+every 10 seconds:
+	loop all players:
+		if {frozen::%loop-player%} = true:
+			send "" to arg 1
+			send "&4&lYou are frozen!" to loop-player
+			send "&c&lA staff member has caught you cheating or saw a report of you cheating." to loop-player
+			send "&e&lJoin our Discord using /discord." to loop-player
+			send "&3&lYou have 3 minutes to join the Discord or to admit to a staff member that you're cheating." to loop-player
+			send "&b&lAdmitting shortens your ban, so for your benefit, you should admit. Otherwise, you will get screenshared." to loop-player
+			send "" to loop-player
+		
+		else:
+			stop
